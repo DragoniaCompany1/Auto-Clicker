@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Disc, Play, Square, Download, Upload, Trash2 } from 'lucide-react';
+import { Disc, Play, Square, Trash2, Video, Gauge } from 'lucide-react';
 import { MacroConfig } from '../types';
 
 interface MacroRecorderProps {
@@ -15,62 +15,102 @@ export const MacroRecorder: React.FC<MacroRecorderProps> = ({ config, onChange }
   };
 
   return (
-    <div className="glass-panel" style={{ padding: '20px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <div>
-          <h3 style={{ fontSize: '16px', fontWeight: 700 }}>Perekam Makro & Playback Aksi Mouse</h3>
-          <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
-            Rekam urutan gerakan kursor & klik mouse lalu putar ulang dengan kecepatan presisi.
-          </p>
+    <div className="glass-card" style={{ padding: '24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '22px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{
+            padding: '8px',
+            borderRadius: '10px',
+            background: 'rgba(255, 0, 122, 0.12)',
+            color: 'var(--accent-pink)'
+          }}>
+            <Video size={20} />
+          </div>
+          <div>
+            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#FFF' }}>Perekam Makro & Playback Aksi Mouse</h3>
+            <p style={{ fontSize: '12.5px', color: 'var(--text-secondary)' }}>
+              Rekam urutan gerakan kursor & klik mouse lalu putar ulang secara otomatis.
+            </p>
+          </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '12px' }}>
           <button
             onClick={toggleRecording}
+            className={isRecording ? 'btn-stop-glow' : ''}
             style={{
-              padding: '10px 18px',
-              borderRadius: '8px',
-              fontWeight: 700,
-              fontSize: '13px',
+              padding: '11px 22px',
+              borderRadius: 'var(--radius-md)',
+              fontWeight: 800,
+              fontSize: '13.5px',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              background: isRecording ? 'var(--accent-pink)' : 'rgba(255, 0, 122, 0.2)',
+              gap: '9px',
+              background: isRecording ? 'var(--accent-pink)' : 'linear-gradient(135deg, rgba(255, 0, 122, 0.25) 0%, rgba(131, 56, 236, 0.25) 100%)',
               color: isRecording ? '#FFF' : 'var(--accent-pink)',
               border: '1px solid var(--accent-pink)',
+              boxShadow: isRecording ? '0 0 20px rgba(255, 0, 122, 0.4)' : 'none'
             }}
           >
-            {isRecording ? <Square size={16} /> : <Disc size={16} />}
+            {isRecording ? <Square size={18} fill="#FFF" /> : <Disc size={18} />}
             {isRecording ? 'Hentikan Rekaman (F9)' : 'Mulai Rekam (F9)'}
           </button>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
-        <div style={{ background: 'var(--bg-input)', borderRadius: '12px', padding: '16px', border: '1px solid var(--border-color)', height: '280px', overflowY: 'auto' }}>
-          <h4 style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '10px' }}>Daftar Event Terrekam ({config.events.length} event)</h4>
+      <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr', gap: '22px' }}>
+        <div style={{
+          background: 'var(--bg-input)',
+          borderRadius: 'var(--radius-md)',
+          padding: '18px',
+          border: '1px solid var(--border-color)',
+          height: '290px',
+          overflowY: 'auto'
+        }}>
+          <h4 style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-secondary)', marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span>Daftar Event Terrekam ({config.events.length} event)</span>
+            {isRecording && (
+              <span style={{ fontSize: '11px', color: 'var(--accent-pink)', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-pink)' }} className="active-danger-glow" />
+                RECORDING LIVE
+              </span>
+            )}
+          </h4>
+
           {config.events.length === 0 ? (
-            <p style={{ fontSize: '12px', color: 'var(--text-dim)', textAlign: 'center', marginTop: '80px' }}>
-              Tekan tombol "Mulai Rekam (F9)" untuk mulai mencatat aksi mouse Anda.
-            </p>
+            <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
+              <Disc size={32} style={{ opacity: 0.4, marginBottom: '8px' }} />
+              <p style={{ fontSize: '12.5px' }}>Tekan tombol "Mulai Rekam (F9)" untuk mencatat pergerakan & klik mouse Anda.</p>
+            </div>
           ) : (
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {config.events.map((ev, i) => (
-                <li key={i} style={{ fontSize: '12px', fontFamily: 'var(--font-mono)', padding: '6px', background: 'rgba(255,255,255,0.03)', borderRadius: '4px' }}>
-                  #{i + 1} - Klik {ev.button?.toUpperCase()} di ({ev.x}, {ev.y}) - Delay: {ev.delayMs}ms
+                <li key={i} style={{
+                  fontSize: '12.5px',
+                  fontFamily: 'var(--font-mono)',
+                  padding: '8px 12px',
+                  background: 'rgba(255,255,255,0.03)',
+                  borderRadius: 'var(--radius-sm)',
+                  border: '1px solid rgba(255,255,255,0.05)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}>
+                  <span>#{i + 1} - Klik {ev.button?.toUpperCase()} di ({ev.x}, {ev.y})</span>
+                  <span style={{ color: 'var(--accent-cyan)', fontWeight: 700 }}>{ev.delayMs}ms</span>
                 </li>
               ))}
             </ul>
           )}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'space-between' }}>
           <div>
-            <label style={{ fontSize: '12px', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>Kecepatan Playback</label>
+            <label style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>Kecepatan Playback</label>
             <select
               value={config.playbackSpeed}
               onChange={(e) => onChange({ ...config, playbackSpeed: parseFloat(e.target.value) })}
-              style={{ width: '100%' }}
+              style={{ width: '100%', fontWeight: 700 }}
             >
               <option value="1">1x Normal Speed</option>
               <option value="2">2x Fast Speed</option>
@@ -81,20 +121,20 @@ export const MacroRecorder: React.FC<MacroRecorderProps> = ({ config, onChange }
           <button
             onClick={() => onChange({ ...config, events: [] })}
             style={{
-              padding: '8px',
-              borderRadius: '8px',
-              background: 'rgba(255, 0, 122, 0.1)',
+              padding: '12px',
+              borderRadius: 'var(--radius-md)',
+              background: 'rgba(255, 0, 122, 0.12)',
               color: 'var(--accent-pink)',
               border: '1px solid rgba(255, 0, 122, 0.3)',
-              fontSize: '12px',
-              fontWeight: 600,
+              fontSize: '13px',
+              fontWeight: 800,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '6px',
+              gap: '8px',
             }}
           >
-            <Trash2 size={14} /> Hapus Makro
+            <Trash2 size={16} /> Hapus Seluruh Makro
           </button>
         </div>
       </div>

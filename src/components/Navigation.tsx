@@ -18,7 +18,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
   ];
 
   return (
-    <nav className="glass-panel" style={{ padding: '8px', display: 'flex', gap: '6px', marginBottom: '20px', overflowX: 'auto' }}>
+    <nav className="glass-card" style={{ padding: '8px 10px', display: 'flex', gap: '8px', marginBottom: '22px', overflowX: 'auto' }}>
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
@@ -28,21 +28,27 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
             onClick={() => onTabChange(tab.id)}
             style={{
               flex: 1,
-              padding: '10px 14px',
-              borderRadius: '8px',
+              padding: '11px 16px',
+              borderRadius: 'var(--radius-md)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '8px',
-              fontSize: '13px',
-              fontWeight: 600,
+              gap: '9px',
+              fontSize: '13.5px',
+              fontWeight: isActive ? 800 : 600,
               whiteSpace: 'nowrap',
-              background: isActive ? 'rgba(0, 240, 255, 0.12)' : 'transparent',
-              color: isActive ? 'var(--accent-cyan)' : 'var(--text-muted)',
-              border: isActive ? '1px solid rgba(0, 240, 255, 0.3)' : '1px solid transparent',
+              background: isActive
+                ? 'linear-gradient(135deg, rgba(0, 240, 255, 0.18) 0%, rgba(131, 56, 236, 0.18) 100%)'
+                : 'transparent',
+              color: isActive ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+              border: isActive
+                ? '1px solid rgba(0, 240, 255, 0.4)'
+                : '1px solid transparent',
+              boxShadow: isActive ? '0 0 16px rgba(0, 240, 255, 0.15)' : 'none',
+              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
             }}
           >
-            <Icon size={16} />
+            <Icon size={17} style={{ color: isActive ? 'var(--accent-cyan)' : 'var(--text-muted)' }} />
             {tab.label}
           </button>
         );

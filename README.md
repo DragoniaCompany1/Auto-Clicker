@@ -17,6 +17,12 @@
 
 ---
 
+### 🖥️ Tangkapan Layar (Preview Interface)
+
+![A click Interface Preview](./docs/preview.png)
+
+---
+
 </div>
 
 ## 🌟 Fitur Utama (Key Features)
@@ -96,7 +102,7 @@ Semua hotkey bekerja di tingkat OS, tetap dapat merespons meskipun aplikasi seda
 Jalankan aplikasi tanpa kompilasi binary untuk keperluan pengujian:
 
 ```bash
-# 1. Clone repositori ini / buka direktori proyek
+# 1. Buka direktori proyek
 cd /home/drgxel/Documents/rb
 
 # 2. Kompilasi binary native C clicker (untuk Linux)
@@ -121,6 +127,7 @@ Hasil file installer / executable akan tersimpan di dalam folder `release/`.
 
 ```
 /home/drgxel/Documents/rb/
+├── README.md                      # Dokumentasi Utama Proyek
 ├── package.json                   # Dependensi & script npm
 ├── electron-builder.json          # Konfigurasi Packaging Executable
 ├── vite.config.ts                 # Setup Bundler Vite + Electron
@@ -129,6 +136,8 @@ Hasil file installer / executable akan tersimpan di dalam folder `release/`.
 ├── LICENSE                        # Teks Lisensi MIT (axel drgxel & M.B.A)
 ├── native_clicker.c               # Engine C Native X11 Daemon (Linux)
 ├── native_clicker                 # Binary terkompilasi X11 Clicker
+├── docs/
+│   └── preview.png                # Gambar Preview Antarmuka UI
 ├── electron/
 │   ├── main.ts                    # Main Process Electron & Dynamic Daemon Pipe
 │   └── preload.ts                 # ContextBridge IPC APIs
