@@ -1,0 +1,22 @@
+{
+  "appId": "com.aclick.app",
+  "productName": "A click",
+  "copyright": "Copyright © 2026 axel (drgxel) & M.B.A",
+  "directories": {
+    "output": "release"
+  },
+  "files": [
+    "dist/**/*",
+    "dist-electron/**/*"
+  ],
+  "linux": {
+    "target": ["AppImage", "deb"],
+    "category": "Utility"
+  },
+  "win": {
+    "target": ["nsis", "portable"]
+  },
+  "mac": {
+    "target": ["dmg"]
+  }
+}
